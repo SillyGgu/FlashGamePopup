@@ -1,55 +1,80 @@
+<!-- --- START OF FILE settings.html --- -->
+
 <div class="extension-block">
+    <!-- 모달: 게임 추가 (기본적으로 숨김) -->
+    <div id="fgp_add_modal" class="fgp-modal-overlay fgp-hidden">
+        <div class="fgp-modal-box">
+            <div class="fgp-modal-title">👾 새 게임 추가</div>
+            <div class="fgp-input-group">
+                <label>파일명 (.swf 포함)</label>
+                <input type="text" id="fgp_input_filename" placeholder="game.swf">
+            </div>
+            <div class="fgp-input-group">
+                <label>표시 이름 (목록용)</label>
+                <input type="text" id="fgp_input_displayname" placeholder="재밌는 플래시 게임">
+            </div>
+            <div class="fgp-modal-actions">
+                <button id="fgp_modal_cancel" class="menu_button">취소</button>
+                <button id="fgp_modal_save" class="menu_button blue_button">추가</button>
+            </div>
+        </div>
+    </div>
+
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>Flash Game Popup</b>
+            <b>플래시게임 팝업</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         
         <div class="inline-drawer-content">
+            
+            <!-- 섹션 1: 라이브러리 -->
             <div class="menu-section">
-                <h3>⚡ 빠른 실행 (Local File)</h3>
-                <div class="control-group">
-                    <p style="font-size: 0.8em; color: #888; margin-bottom: 5px;">
-                        PC에 있는 파일을 바로 선택하여 실행합니다. (저장되지 않음)
-                    </p>
-                    <input type="file" id="fgp_local_file_input" accept=".swf" style="width: 100%;">
-                </div>
-            </div>
-
-            <hr class="sysHR">
-
-            <div class="menu-section">
-                <h3>📚 게임 라이브러리</h3>
-                <p style="font-size: 0.8em; color: #888; margin-bottom: 10px;">
-                    1. <code>/FlashGamePopup/games/</code> 폴더에 .swf 파일을 넣으세요.<br>
-                    2. 아래에 파일명을 입력하고 추가 버튼을 누르세요.
-                </p>
-                
-                <div class="control-group" style="display: flex; gap: 5px; margin-bottom: 15px;">
-                    <input type="text" id="fgp_filename_input" placeholder="example.swf" class="text_pole">
-                    <button id="fgp_add_game_btn" class="menu_button blue_button" style="min-width: 60px;">추가</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3>🎮 게임 라이브러리</h3>
+                    <button id="fgp_open_add_modal_btn" class="menu_button green_button" title="게임 추가">
+                        <i class="fa-solid fa-plus"></i> 추가
+                    </button>
                 </div>
 
-                <div class="control-group" style="display: flex; gap: 5px; align-items: center;">
-                    <select id="fgp_game_dropdown" class="text_pole" style="flex-grow: 1;">
-                        <option value="" disabled selected>게임 선택...</option>
-                    </select>
-                    <button id="fgp_play_selected_btn" class="menu_button green_button" title="선택한 게임 실행">
-                        <i class="fa-solid fa-play"></i> 실행
+                <div id="fgp_game_list_container" class="fgp-library-container">
+                    <!-- 자바스크립트로 리스트 아이템이 렌더링 됩니다 -->
+                    <div style="padding:20px; text-align:center; color:#666;">등록된 게임이 없습니다.</div>
+                </div>
+
+                <div class="fgp-btn-row">
+                    <button id="fgp_play_selected_btn" class="menu_button blue_button fgp-full-btn" disabled>
+                        <i class="fa-solid fa-play"></i> 선택한 게임 실행
                     </button>
                 </div>
             </div>
 
             <hr class="sysHR">
 
-            <div class="menu-section">
-                <h3>📋 라이브러리 목록 관리</h3>
-                <div id="fgp_manage_list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;">
+            <!-- 섹션 2: 기타 설정 (접기 가능) -->
+            <div class="fgp-settings-drawer">
+                <div class="fgp-settings-toggle" id="fgp_toggle_advanced">
+                    <span>⚙️ 고급 설정 & 빠른 실행</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="fgp_advanced_content" class="fgp-settings-content fgp-hidden">
+                    
+                    <h4 style="margin: 5px 0 10px;">⚡ 로컬 파일 실행</h4>
+                    <div class="control-group">
+                        <label style="font-size: 0.8em; color: #888;">PC 파일을 임시로 실행합니다.</label>
+                        <input type="file" id="fgp_local_file_input" accept=".swf" style="width: 100%; margin-top:5px;">
                     </div>
+
+                    <h4 style="margin: 15px 0 10px;">📐 팝업 초기값</h4>
+                    <div class="control-group">
+                        <label>기본 볼륨</label>
+                        <input type="range" id="fgp_default_volume" min="0" max="1" step="0.05" style="width:100%">
+                    </div>
+                </div>
             </div>
-            
-            <div style="margin-top: 20px; font-size: 0.8em; text-align: right; color: #777;">
-                Powered by Ruffle | FlashGamePopup Ext.
+
+            <div style="margin-top: 15px; font-size: 0.75em; text-align: right; color: #555;">
+                FlashGamePopup Extension
             </div>
         </div>
     </div>

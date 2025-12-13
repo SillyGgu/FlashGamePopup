@@ -1,102 +1,254 @@
-/* 팝업 컨테이너 */
+/* --- START OF FILE style.css --- */
+
+/* 팝업 컨테이너 (기본) */
 #flash-game-popup-container {
     position: fixed;
     z-index: 2000;
-    background: rgba(30, 30, 35, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #121212;
+    border: 1px solid #333;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    resize: both; /* 우측 하단 리사이즈 핸들 */
+    resize: both;
     min-width: 300px;
-    min-height: 200px;
+    min-height: 40px; /* 최소화 시 높이 */
+    transition: height 0.3s ease, opacity 0.2s;
 }
 
 #flash-game-popup-container.dragging {
-    opacity: 0.8;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    opacity: 0.9;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+    border-color: #555;
+}
+
+/* 최소화 상태 */
+#flash-game-popup-container.minimized {
+    height: 40px !important;
+    resize: none;
+    width: 250px !important;
+}
+#flash-game-popup-container.minimized #fgp-content,
+#flash-game-popup-container.minimized #fgp-resize-handle {
+    display: none;
 }
 
 /* 헤더 */
 #fgp-header {
     height: 40px;
-    background: linear-gradient(90deg, #2b303b, #1f232a);
+    background: #1f1f1f;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 12px;
     cursor: grab;
     user-select: none;
     border-bottom: 1px solid #333;
 }
+#fgp-header:active {
+    cursor: grabbing;
+}
 
 #fgp-title {
-    color: #e0e0e0;
-    font-weight: bold;
+    color: #eee;
+    font-weight: 700;
     font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 #fgp-controls {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-/* 볼륨 컨트롤 */
-.fgp-volume-control {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #aaa;
-}
-
-#fgp-volume-slider {
-    width: 70px;
-    height: 4px;
-    cursor: pointer;
-}
-
-/* 닫기 버튼 */
-#fgp-close-btn {
+/* 컨트롤 버튼들 */
+.fgp-ctrl-btn {
     background: none;
     border: none;
     color: #888;
-    font-size: 1.1em;
     cursor: pointer;
-    transition: color 0.2s;
+    font-size: 1em;
+    padding: 4px;
+    transition: color 0.2s, transform 0.1s;
 }
-#fgp-close-btn:hover {
-    color: #ff5555;
+.fgp-ctrl-btn:hover { color: #fff; }
+.fgp-ctrl-btn.close:hover { color: #ff5555; }
+.fgp-ctrl-btn:active { transform: scale(0.9); }
+
+/* 볼륨 슬라이더 */
+.fgp-volume-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #aaa;
+    font-size: 0.8em;
+}
+#fgp-volume-slider {
+    width: 60px;
+    height: 4px;
+    accent-color: #00bcd4;
+    cursor: pointer;
 }
 
-/* 컨텐츠 (Ruffle) */
+/* 컨텐츠 영역 */
 #fgp-content {
     flex-grow: 1;
     position: relative;
     background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#ruffle-container { width: 100%; height: 100%; }
+#ruffle-container ruffle-player { width: 100%; height: 100%; }
+
+/* --- 설정창 (Settings) 스타일 --- */
+
+/* 게임 목록 컨테이너 */
+.fgp-library-container {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    height: 250px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px;
+    margin-bottom: 10px;
 }
 
-#ruffle-container {
-    width: 100%;
-    height: 100%;
-}
-
-/* Ruffle 내부 캔버스 강제 조정 */
-#ruffle-container ruffle-player {
-    width: 100%;
-    height: 100%;
-}
-
-/* 설정창 리스트 스타일 */
-.fgp-list-item {
+/* 게임 리스트 아이템 */
+.fgp-game-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    background: rgba(0,0,0,0.05);
-    border-radius: 5px;
+    padding: 10px 15px;
+    background: #2b2b2b;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #ccc;
+}
+.fgp-game-item:hover {
+    background: #3a3a3a;
+    color: #fff;
+}
+.fgp-game-item.selected {
+    background: rgba(0, 188, 212, 0.15);
+    border-color: #00bcd4;
+    color: #00bcd4;
+    font-weight: bold;
+}
+
+.fgp-game-info {
+    display: flex;
+    flex-direction: column;
+}
+.fgp-game-name { font-size: 1em; }
+.fgp-game-file { font-size: 0.75em; color: #777; margin-top: 2px;}
+.fgp-game-item.selected .fgp-game-file { color: #008ba3; }
+
+/* 삭제 버튼 (리스트 내부) */
+.fgp-delete-btn {
+    opacity: 0;
+    transition: opacity 0.2s;
+    padding: 4px 8px;
+    font-size: 0.8em;
+}
+.fgp-game-item:hover .fgp-delete-btn { opacity: 1; }
+
+/* 모달 (Modal) */
+.fgp-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+.fgp-modal-box {
+    background: #1e1e1e;
+    border: 1px solid #444;
+    border-radius: 8px;
+    width: 350px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+.fgp-modal-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+.fgp-input-group {
+    margin-bottom: 15px;
+}
+.fgp-input-group label {
+    display: block;
+    font-size: 0.8em;
+    color: #aaa;
     margin-bottom: 5px;
-    border: 1px solid rgba(0,0,0,0.1);
+}
+.fgp-input-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+}
+.fgp-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 유틸리티 */
+.fgp-hidden { display: none !important; }
+.fgp-btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.fgp-full-btn {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+}
+
+/* 설정 아코디언 */
+.fgp-settings-drawer {
+    background: rgba(0,0,0,0.1);
+    border-radius: 5px;
+    margin-top: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.fgp-settings-toggle {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #aaa;
+}
+.fgp-settings-toggle:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.fgp-settings-content {
+    padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
