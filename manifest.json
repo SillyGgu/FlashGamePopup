@@ -1,0 +1,12 @@
+{
+    "display_name": "Flash Game Popup",
+    "loading_order": 211,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "settings": "settings.html",
+    "author": "User",
+    "version": "1.0.0",
+    "homePage": "https://github.com/YourName/FlashGamePopup"
+}

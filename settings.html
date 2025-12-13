@@ -1,0 +1,56 @@
+<div class="extension-block">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>Flash Game Popup</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        
+        <div class="inline-drawer-content">
+            <div class="menu-section">
+                <h3>⚡ 빠른 실행 (Local File)</h3>
+                <div class="control-group">
+                    <p style="font-size: 0.8em; color: #888; margin-bottom: 5px;">
+                        PC에 있는 파일을 바로 선택하여 실행합니다. (저장되지 않음)
+                    </p>
+                    <input type="file" id="fgp_local_file_input" accept=".swf" style="width: 100%;">
+                </div>
+            </div>
+
+            <hr class="sysHR">
+
+            <div class="menu-section">
+                <h3>📚 게임 라이브러리</h3>
+                <p style="font-size: 0.8em; color: #888; margin-bottom: 10px;">
+                    1. <code>/FlashGamePopup/games/</code> 폴더에 .swf 파일을 넣으세요.<br>
+                    2. 아래에 파일명을 입력하고 추가 버튼을 누르세요.
+                </p>
+                
+                <div class="control-group" style="display: flex; gap: 5px; margin-bottom: 15px;">
+                    <input type="text" id="fgp_filename_input" placeholder="example.swf" class="text_pole">
+                    <button id="fgp_add_game_btn" class="menu_button blue_button" style="min-width: 60px;">추가</button>
+                </div>
+
+                <div class="control-group" style="display: flex; gap: 5px; align-items: center;">
+                    <select id="fgp_game_dropdown" class="text_pole" style="flex-grow: 1;">
+                        <option value="" disabled selected>게임 선택...</option>
+                    </select>
+                    <button id="fgp_play_selected_btn" class="menu_button green_button" title="선택한 게임 실행">
+                        <i class="fa-solid fa-play"></i> 실행
+                    </button>
+                </div>
+            </div>
+
+            <hr class="sysHR">
+
+            <div class="menu-section">
+                <h3>📋 라이브러리 목록 관리</h3>
+                <div id="fgp_manage_list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;">
+                    </div>
+            </div>
+            
+            <div style="margin-top: 20px; font-size: 0.8em; text-align: right; color: #777;">
+                Powered by Ruffle | FlashGamePopup Ext.
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+/* 팝업 컨테이너 */
+#flash-game-popup-container {
+    position: fixed;
+    z-index: 2000;
+    background: rgba(30, 30, 35, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    resize: both; /* 우측 하단 리사이즈 핸들 */
+    min-width: 300px;
+    min-height: 200px;
+}
+
+#flash-game-popup-container.dragging {
+    opacity: 0.8;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+/* 헤더 */
+#fgp-header {
+    height: 40px;
+    background: linear-gradient(90deg, #2b303b, #1f232a);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    cursor: grab;
+    user-select: none;
+    border-bottom: 1px solid #333;
+}
+
+#fgp-title {
+    color: #e0e0e0;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+#fgp-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 볼륨 컨트롤 */
+.fgp-volume-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #aaa;
+}
+
+#fgp-volume-slider {
+    width: 70px;
+    height: 4px;
+    cursor: pointer;
+}
+
+/* 닫기 버튼 */
+#fgp-close-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+#fgp-close-btn:hover {
+    color: #ff5555;
+}
+
+/* 컨텐츠 (Ruffle) */
+#fgp-content {
+    flex-grow: 1;
+    position: relative;
+    background: #000;
+}
+
+#ruffle-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Ruffle 내부 캔버스 강제 조정 */
+#ruffle-container ruffle-player {
+    width: 100%;
+    height: 100%;
+}
+
+/* 설정창 리스트 스타일 */
+.fgp-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 5px;
+    margin-bottom: 5px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
