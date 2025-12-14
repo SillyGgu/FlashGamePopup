@@ -1,80 +1,99 @@
 <!-- --- START OF FILE settings.html --- -->
 
 <div class="extension-block">
-    <!-- 모달: 게임 추가 (기본적으로 숨김) -->
+    <!-- 모달 1: 게임 직접 추가 -->
     <div id="fgp_add_modal" class="fgp-modal-overlay fgp-hidden">
         <div class="fgp-modal-box">
             <div class="fgp-modal-title">👾 새 게임 추가</div>
             <div class="fgp-input-group">
-                <label>파일명 (.swf 포함)</label>
-                <input type="text" id="fgp_input_filename" placeholder="game.swf">
+                <label>파일명 (games 폴더 내부)</label>
+                <input type="text" id="fgp_input_filename" placeholder="예: game.swf">
             </div>
             <div class="fgp-input-group">
-                <label>표시 이름 (목록용)</label>
-                <input type="text" id="fgp_input_displayname" placeholder="재밌는 플래시 게임">
+                <label>표시할 이름</label>
+                <input type="text" id="fgp_input_displayname" placeholder="예: 재미있는 게임">
             </div>
             <div class="fgp-modal-actions">
-                <button id="fgp_modal_cancel" class="menu_button">취소</button>
-                <button id="fgp_modal_save" class="menu_button blue_button">추가</button>
+                <button id="fgp_modal_cancel" class="fgp-pastel-btn">취소</button>
+                <button id="fgp_modal_save" class="fgp-pastel-btn primary">추가</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 2: 카테고리 관리 -->
+    <div id="fgp_category_modal" class="fgp-modal-overlay fgp-hidden">
+        <div class="fgp-modal-box">
+            <div class="fgp-modal-title">📁 카테고리 관리</div>
+            <div class="fgp-input-group">
+                <label>카테고리 이름</label>
+                <input type="text" id="fgp_input_cat_name" placeholder="예: RPG, 액션">
+            </div>
+            <div class="fgp-modal-actions">
+                <button id="fgp_cat_modal_delete" class="fgp-pastel-btn" style="color:#e57373; margin-right:auto; display:none;">삭제</button>
+                <button id="fgp_cat_modal_cancel" class="fgp-pastel-btn">취소</button>
+                <button id="fgp_cat_modal_save" class="fgp-pastel-btn primary">저장</button>
             </div>
         </div>
     </div>
 
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>플래시게임 팝업</b>
+            <b>플래시 게임 팝업</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         
         <div class="inline-drawer-content">
-            
-            <!-- 섹션 1: 라이브러리 -->
-            <div class="menu-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <h3>🎮 게임 라이브러리</h3>
-                    <button id="fgp_open_add_modal_btn" class="menu_button green_button" title="게임 추가">
-                        <i class="fa-solid fa-plus"></i> 추가
-                    </button>
+            <div class="fgp-white-panel">
+                
+                <details class="fgp-guide-box">
+                    <summary>💡 SWF 게임 파일을 추가하는 방법 (필독)</summary>
+                    <div class="fgp-guide-content">
+                        <b>1. 게임 파일(.swf) 구하기:</b><br>
+                        - 플래시 게임 사이트 소스보기(Ctrl+U) 등을 통해 <code>.swf</code> 주소를 찾습니다.<br>
+                        - 해당 파일을 다운로드합니다.<br><br>
+                        <b>2. 파일 설치 및 목록 정리:</b><br>
+                        - 파일을 <code>extensions/FlashGamePopup/games/</code> 폴더에 넣습니다.<br>
+						- 같은 폴더의 <code>list.txt</code> 파일을 열어 목록을 작성합니다.<br>
+                        - 작성 형식: <code>파일명/표시할이름</code> (예: <code>game.swf/재밌는게임</code>)<br>
+                        - 아래의 <b>"새로고침"</b> 버튼을 누르면 작성한 목록이 일괄 추가됩니다.<br>
+                        - 혹은 <b>"추가"</b> 버튼을 눌러 하나씩 직접 입력할 수도 있습니다.
+                    </div>
+                </details>
+
+                <div class="fgp-header-row">
+                    <h3 class="fgp-header-title">🎮 라이브러리</h3>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="fgp_refresh_list_btn" class="fgp-pastel-btn" title="games 폴더 스캔">
+                            <i class="fa-solid fa-rotate"></i> 새로고침
+                        </button>
+                        <button id="fgp_edit_mode_btn" class="fgp-pastel-btn" title="순서 변경, 이름 수정, 폴더 이동">
+                            <i class="fa-solid fa-pen-to-square"></i> 편집
+                        </button>
+                        <button id="fgp_export_list_btn" class="fgp-pastel-btn" title="현재 목록을 list.txt 파일로 내보내기">
+                            <i class="fa-solid fa-file-export"></i> 내보내기
+                        </button>
+                        <button id="fgp_open_add_modal_btn" class="fgp-pastel-btn success" title="파일명 직접 입력하여 추가">
+                            <i class="fa-solid fa-plus"></i> 추가
+                        </button>
+                    </div>
                 </div>
 
-                <div id="fgp_game_list_container" class="fgp-library-container">
-                    <!-- 자바스크립트로 리스트 아이템이 렌더링 됩니다 -->
-                    <div style="padding:20px; text-align:center; color:#666;">등록된 게임이 없습니다.</div>
-                </div>
+                <div id="fgp_tabs_container" class="fgp-tabs-container"></div>
 
-                <div class="fgp-btn-row">
-                    <button id="fgp_play_selected_btn" class="menu_button blue_button fgp-full-btn" disabled>
+                <div id="fgp_game_list_container" class="fgp-library-container"></div>
+
+                <div class="fgp-footer">
+                    <button id="fgp_play_selected_btn" class="fgp-pastel-btn primary fgp-play-btn">
                         <i class="fa-solid fa-play"></i> 선택한 게임 실행
                     </button>
-                </div>
-            </div>
-
-            <hr class="sysHR">
-
-            <!-- 섹션 2: 기타 설정 (접기 가능) -->
-            <div class="fgp-settings-drawer">
-                <div class="fgp-settings-toggle" id="fgp_toggle_advanced">
-                    <span>⚙️ 고급 설정 & 빠른 실행</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div id="fgp_advanced_content" class="fgp-settings-content fgp-hidden">
                     
-                    <h4 style="margin: 5px 0 10px;">⚡ 로컬 파일 실행</h4>
-                    <div class="control-group">
-                        <label style="font-size: 0.8em; color: #888;">PC 파일을 임시로 실행합니다.</label>
-                        <input type="file" id="fgp_local_file_input" accept=".swf" style="width: 100%; margin-top:5px;">
-                    </div>
-
-                    <h4 style="margin: 15px 0 10px;">📐 팝업 초기값</h4>
-                    <div class="control-group">
-                        <label>기본 볼륨</label>
-                        <input type="range" id="fgp_default_volume" min="0" max="1" step="0.05" style="width:100%">
+                    <div class="fgp-volume-box">
+                        <span><i class="fa-solid fa-volume-low"></i> 초기 실행 볼륨 / 전체 볼륨</span>
+                        <!-- 팝업과 연동되는 볼륨 슬라이더 -->
+                        <input type="range" id="fgp_default_volume" min="0" max="1" step="0.05" style="width: 150px; accent-color: #90caf9; cursor: pointer;">
                     </div>
                 </div>
-            </div>
 
-            <div style="margin-top: 15px; font-size: 0.75em; text-align: right; color: #555;">
-                FlashGamePopup Extension
             </div>
         </div>
     </div>
