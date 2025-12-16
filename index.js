@@ -187,6 +187,19 @@ function createFlashPopup(swfUrlOrData, title = "Flash Game Player") {
     if (window.RufflePlayer && window.RufflePlayer.newest) {
         const ruffle = window.RufflePlayer.newest();
         rufflePlayer = ruffle.createPlayer();
+
+        // [수정됨] SillyTavern 핫키 방지 트릭
+        // Ruffle 플레이어에 contenteditable 속성을 주어, SillyTavern이 이를 '텍스트 입력창'으로 인식하게 만듭니다.
+        // 결과: 게임 플레이(포커스) 중에는 SillyTavern이 스스로 스와이프/핫키를 비활성화합니다.
+        // 게임 조작(방향키 등)은 Ruffle이 정상적으로 받아 처리할 수 있습니다.
+        rufflePlayer.setAttribute('contenteditable', 'true');
+        
+        // 위 속성으로 인해 생길 수 있는 시각적 부작용(텍스트 커서, 외곽선)을 숨김 처리
+        $(rufflePlayer).css({
+            'outline': 'none',
+            'caret-color': 'transparent',
+            'cursor': 'default'
+        });
         
         // Ruffle 설정 (세이브 데이터 보존을 위한 설정 포함)
         rufflePlayer.config = { 
